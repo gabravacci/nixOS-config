@@ -6,10 +6,10 @@ System components:
 |---------|---------|
 |**shell**|  zsh    |
 |**DM**   | gdm     |
-| **DE**  | gnome   | 
 |**WM**   | hyprland|
-|**launcher**|rofi  |
+|**bar**  | waybar  |
+|**launcher**|wofi  |
 |**notifs**| dunst  |
 |**editor**| neovim |
 
-Plans to switch fully from gdm/gnome $\rightarrow$ hyprland in the future. Need to sort bar + other essentials in the meantime.
+
