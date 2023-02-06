@@ -1,3 +1,17 @@
+#
+# General Home-manager config
+#
+# flake.nix 
+#   ├─ home.nix *
+#   └─ ./modules   
+#        ├─ ./programs
+#        │    └─ default.nix 
+#        ├─ ./editors 
+#        │    └─ default.nix
+#        └─ ./services
+#             └─ default.nix
+#
+
 { config, lib, pkgs, ... }:
 
 {
@@ -26,6 +40,7 @@
     #[(import ./modules/desktop/bspwm/home.nix)] ++
     [(import ./modules/desktop/hyprland/home.nix)] ++
     (import ./modules/programs) ++
+    (import ./modules/editors) ++
     (import ./modules/services);
 
   home.packages = with pkgs; [
@@ -35,6 +50,8 @@
       nitch
       ranger
       cbonsai
+      cmatrix
+      foot
 
       # Video/Audio
       feh
@@ -46,6 +63,7 @@
       # Apps
       firefox
       inkscape
+      vscode-with-extensions
 
       # File Management
       pcmanfm
@@ -58,43 +76,7 @@
   ];
 
   programs = {
-    neovim = {
-      enable = true;
-
-      plugins = with pkgs.vimPlugins; [
-	 # Syntax
-	 vim-nix
-         nvim-treesitter
-	 
-	 # File Tree
-	 nerdtree
-
-         # TeX
-         vimtex
-         ultisnips
-
-         # Colorscheme
-         catppuccin-nvim
-         dracula-nvim
-      ];
-      extraConfig = ''
-        set number
-        set relativenumber
-
-        set termguicolors
-
-	syntax enable
-
-        let g:tex_flavors='latex'
-        let g:vimtex_view_method='zathura'
-        let g:vimtex_view_general_viewer = 'zathura'
-
-        set conceallevel=1
-
-        colorscheme catppuccin
-      '';
-    };
-
+    emacs.enable = true;
     zathura = {
       enable = true;
 
@@ -105,11 +87,6 @@
 
         set recolor-lightcolor "#10151a"'';
     };
-    #rofi = {
-    #  enable = true;
-    #  terminal = "${pkgs.alacritty}/bin/alacritty";
-    #  location = "center";
-    #};
   };
 
   services = {
@@ -151,9 +128,9 @@
       package = pkgs.whitesur-icon-theme;
     };
     font = {
-      name = "JetBrains Mono Medium";
+      # name = "JetBrains Mono Medium";
+      name = "Roboto Mono Medium";
       # name = "FiraCode Nerd Font Mono Medium";
     };
   };
-
 }

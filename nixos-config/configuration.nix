@@ -2,6 +2,16 @@
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running ‘nixos-help’).
 
+# Main system configuration. 
+#
+# flake.nix 
+#   ├─ configuration.nix *
+#   └─ ./modules   
+#        ├─ ./programs
+#        │    └─ starship.nix (must be initialized here)
+#        ├─ ./desktop (choose)
+#        └─ ./hardware-configuration.nix
+
 { config, lib, pkgs, ... }:
 
 # Declare user variable
@@ -18,9 +28,9 @@ in
     [(import ./hardware-configuration.nix)]++
     [(import ./modules/programs/starship.nix)] ++
     #[(import ./modules/desktop/bspwm/default.nix)];
-    [(import ./modules/desktop/gnome/default.nix)];
+    #[(import ./modules/desktop/gnome/default.nix)] ++
     #[(import ./modules/desktop/plasma/default.nix)] ++
-    #[(import ./modules/desktop/hyprland/default.nix)];
+    [(import ./modules/desktop/hyprland/default.nix)];
     # starship needs to be in config instead of home-manager
     # for some reason
 
@@ -62,6 +72,8 @@ in
     font-awesome
     corefonts
     roboto
+    roboto-mono
+    noto-fonts
     iosevka-comfy.comfy
     (nerdfonts.override {
       fonts = [
@@ -102,6 +114,7 @@ in
       enableCompletion = true;
       syntaxHighlighting.enable = true;
     };
+    light.enable = true;
   };
 
   # Define a user account. Don't forget to set a password with ‘passwd’.
@@ -186,6 +199,5 @@ in
       );
     })
   ];
-
 }
  

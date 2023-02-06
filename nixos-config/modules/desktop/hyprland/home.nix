@@ -9,22 +9,28 @@ let
 
     general {
       #main_mod=SUPER
-      border_size = 3
-      gaps_in = 5
-      gaps_out = 7
-      col.active_border=rgb(cba6f7)
+      border_size = 2
+      gaps_in = 0
+      gaps_out = 3
+      col.active_border=rgb(a7c7e7)
       col.inactive_border=rgb(000000)
-      layout=dwindle # master | dwindle
+      layout=master # master | dwindle
+    }
+
+    input {
+      touchpad {
+        natural_scroll = yes
+      }
     }
 
     decoration {
-      rounding=5
+      rounding=3
       multisample_edges=true
-      active_opacity=0.93
+      active_opacity=1
       inactive_opacity=0.93
       fullscreen_opacity=1
-      blur=true
-      drop_shadow=false
+      blur=no
+      drop_shadow=true
     }
     
     # Mathhias animations
@@ -62,10 +68,10 @@ let
 
     bind=SUPER,Return,exec,${pkgs.alacritty}/bin/alacritty
     bind=SUPER,Q,killactive,
-    bind=SUPER,Escape,exit,
+    bind=SUPER,Escape,exec,~/.config/wofi/powermenu.sh
     bind=SUPER,E,exec,${pkgs.pcmanfm}/bin/pcmanfm
     bind=SUPER,H,togglefloating,
-    bind=SUPER,Space,exec,${pkgs.rofi}/bin/rofi -show drun
+    bind=SUPER,Space,exec,wofi --show drun --columns 2 -I -s ~/.config/wofi/style.css 
     bind=SUPER,P,pseudo,
     bind=SUPER,F,fullscreen,
     bind=SUPER,R,forcerendererreload
@@ -112,7 +118,7 @@ let
     bind=CTRL,down,resizeactive,0 20
 
     # Waybar Toggle
-    bind=SUPER,O,exec,killall -SIGUSR1 waybar
+    bind=SUPER,O,exec,killall -SIGUSR1 .waybar-wrapped
 
     # Volume, brightness, media control
     bind=,XF86AudioLowerVolume,exec,${pkgs.pamixer}/bin/pamixer -d 10
@@ -128,6 +134,9 @@ let
 
     # Auto start
     exec-once = ${pkgs.waybar}/bin/waybar &
+    exec-once=${pkgs.swaybg}/bin/swaybg -m center -i $HOME/Pictures/dark-simple.png
+    exec-once=${pkgs.networkmanagerapplet}/bin/nm-applet --indicator
+    exec-once=${pkgs.blueman}/bin/blueman-applet
   '';
 in
 {

@@ -33,9 +33,8 @@ in
       style = ''
         * {
           border: none;
-          font-family: FiraCode Nerd Font Mono;
-          /*font-weight: bold;*/
-          font-size: 12px;
+          font-family: "Roboto Light";
+          font-size: 14pt;
           text-shadow: 0px 0px 5px #000000;
         }
         button:hover {
@@ -43,10 +42,10 @@ in
         }
         window#waybar {
           background-color: rgba(0,0,0,0.5);
-          background: transparent;
+          /*background: transparent;*/
           transition-property: background-color;
           transition-duration: .5s;
-          border-bottom: none;
+          /*border-bottom: none;*/
         }
         window#waybar.hidden {
           opacity: 0.2;
@@ -54,12 +53,12 @@ in
         #workspace,
         #clock,
         #network,
-        #network,
         #window,
+        #pulseaudio,
         #battery,
         #custom-menu {
           color: #A7C7E7;
-          padding: 0px 5px 0px 5px;
+          padding: 0px 7px 0px 7px;
         }
         #workspaces button {
           padding: 0px 5px;
@@ -99,11 +98,14 @@ in
           position = "top";
           height = 16;
           modules-left = [ "custom/menu" "wlr/workspaces" ];
-
-          modules-right = [ "network" "battery" "clock" ];
-
+          modules-center = [ "hyprland/window" ];
+          # modules-right = [ "network" "pulseaudio" "battery" "clock" ];
+          modules-right = [ "battery" "pulseaudio" "network" "clock" ];
+          "hyprland/window" = {
+            format = "{}";
+          };
           "wlr/workspaces" = {
-            format = "<span font='11'>{name}</span>";
+            format = "{name}";
             #format = "<span font='12'>{icon}</span>";
             #format-icons = {
             #  "1"="";
@@ -123,8 +125,7 @@ in
           };
           "custom/menu" = {
             format = "<span font='16'>λ</span>";
-            on-click = ''${pkgs.rofi}/bin/rofi -show power-menu -modi "power-menu:rofi-power-menu --choices=logout/suspend/reboot/shutdown"'';
-            on-click-right = "${pkgs.rofi}/bin/rofi -show drun";
+            on-click = "bash ~/.config/wofi/powermenu.sh";
             tooltip = false;
           };
           clock = {
@@ -152,20 +153,44 @@ in
               warning = 30;
               critical = 15;
             };
-            format = "{capacity}% <span font='11'>{icon}</span>";
-            format-charging = "{capacity}% <span font='11'></span>";
-            format-icons = ["" "" "" "" ""];
+            format = "{icon} {capacity}%";
+            format-charging = " {capacity}%";
+            format-icons = ["" "" "" "" ""]; # FiraCode icons
+            #format-icons = [ "" "" "" "" "" ]; # JetBrains icons
             max-length = 25;
           };
+          pulseaudio = {
+            format = "{icon} {volume}% {format_source}";
+            format-bluetooth = "{icon} {volume}% {format_source}";
+            #format-bluetooth-muted = "<span font='12'>x</span> {volume}% {format_source} ";
+            format-muted = "婢 {format_source}";
+            #format-source = "{volume}% <span font='11'></span>";
+            format-source = "";
+            format-source-muted = "";
+            format-icons = {
+              # default = [ "" "" "" ];
+              default = [ "󰕿" "󰖀" "󰕾" ];
+              headphone = "";
+              #hands-free = "";
+              #headset = "";
+              #phone = "";
+              #portable = "";
+              #car = "";
+            };
+            tooltip-format = "{desc}, {volume}%";
+            on-click-right = "${pkgs.pavucontrol}/bin/pavucontrol";
+            on-click = "${pkgs.pamixer}/bin/pamixer -t";
+          };
           network = {
-            format-wifi = "<span font='11'></span>";
-            format-ethernet = "<span font='11'></span>";
-            #format-ethernet = "<span font='11'></span> {ifname}: {ipaddr}/{cidr}";
-            format-linked = "<span font='11'>睊</span> {ifname} (No IP)";
-            format-disconnected = "<span font='11'>睊</span> Not connected";
+            format-wifi = "<span font='20'></span>";
+            format-ethernet = "<span font='12'></span>";
+            #format-ethernet = "<span font='12'></span> {ifname}: {ipaddr}/{cidr}";
+            format-linked = "<span font='12'>睊</span> {ifname} (No IP)";
+            format-disconnected = "<span font='12'>睊</span> Not connected";
             #format-alt = "{ifname}: {ipaddr}/{cidr}";
             tooltip-format = "{essid} {ipaddr}/{cidr}";
             on-click-right = "${pkgs.alacritty}/bin/alacritty -e nmtui";
+            on-click = "bash ~/.config/wofi/wifimenu.sh";
           };
         };
       };
