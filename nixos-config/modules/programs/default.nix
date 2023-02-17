@@ -1,6 +1,5 @@
 [
   ./alacritty.nix
-  # ./rofi.nix
-  # ./rofi-doom.nix
+  ./foot.nix
   ./wofi.nix
 ]

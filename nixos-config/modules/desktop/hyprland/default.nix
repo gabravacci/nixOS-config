@@ -1,27 +1,25 @@
 { config, lib, pkgs, ... }:
 
 {
-  imports = [ ../../programs/waybar.nix ];
+  imports = [ ../../programs/min_waybar.nix ];
 
-  programs.dconf.enable = true;
+  services.xserver = {
+    enable = true;
 
-  services = {
-    xserver = {
+    layout = "us";
+    xkbVariant = "";
+    libinput.enable = true;
+
+    displayManager.gdm = {
       enable = true;
-
-      layout = "us";
-      xkbVariant = "";
-      libinput.enable = true;
-
-      displayManager = {                          # Display Manager
-        gdm = {
-          enable = true;
-        };
-      };
     };
   };
 
   environment = {
+    sessionVariables = {
+      MOZ_ENABLE_WAYLAND = "1";
+    };
+
     systemPackages = with pkgs; [
       grim
       mpvpaper
@@ -32,14 +30,10 @@
     ];
   };
 
-  programs = {
-    hyprland = {
-      enable = true;
-    };
-  };
+  programs.hyprland.enable = true;
 
   xdg.portal = {
     enable = true;
-    wlr.enable= true;
+    wlr.enable = true;
   };
 }

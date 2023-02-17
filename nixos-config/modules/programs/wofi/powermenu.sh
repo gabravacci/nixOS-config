@@ -1,13 +1,14 @@
 
 #!/bin/bash
 
-entries="⭮ Reboot\n⏻ Shutdown\n⇠ Logout\n⏾ Suspend"
+#entries="⭮ Reboot\n⏻ Shutdown\n⇠ Logout\n⏾ Suspend"
+entries="⭮ Reboot\n⏻ Shutdown\n⏾ Suspend"
 
-selected=$(echo -e $entries|wofi --width 250 --height 260 --dmenu --hide-scroll --cache-file /dev/null | awk '{print tolower($2)}')
+selected=$(echo -e $entries|wofi --width 250 --height 250 --dmenu --hide-scroll --cache-file /dev/null | awk '{print tolower($2)}')
 
 case $selected in
-  logout)
-    swaymsg exit;;
+  #logout)
+  #  swaymsg exit;;
   suspend)
     exec systemctl suspend;;
   reboot)

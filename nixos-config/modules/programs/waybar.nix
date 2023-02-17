@@ -35,13 +35,13 @@ in
           border: none;
           font-family: "Roboto Light";
           font-size: 14pt;
-          text-shadow: 0px 0px 5px #000000;
+          /* text-shadow: 0px 0px 5px #000000; */
         }
         button:hover {
           background-color: rgba(80,100,100,0.4);
         }
         window#waybar {
-          background-color: rgba(0,0,0,0.5);
+          background-color: rgba(0,0,0,0.7);
           /*background: transparent;*/
           transition-property: background-color;
           transition-duration: .5s;
@@ -50,7 +50,8 @@ in
         window#waybar.hidden {
           opacity: 0.2;
         }
-        #workspace,
+        #tray,
+        #workspaces,
         #clock,
         #network,
         #window,
@@ -96,17 +97,22 @@ in
         Main = {
           layer = "top";
           position = "top";
-          height = 16;
+
+          height = 16;            # 0 | 16
+
           modules-left = [ "custom/menu" "wlr/workspaces" ];
           modules-center = [ "hyprland/window" ];
-          # modules-right = [ "network" "pulseaudio" "battery" "clock" ];
-          modules-right = [ "battery" "pulseaudio" "network" "clock" ];
+          modules-right = [ "battery" "pulseaudio" "tray" "clock" ];
           "hyprland/window" = {
             format = "{}";
           };
           "wlr/workspaces" = {
             format = "{name}";
-            #format = "<span font='12'>{icon}</span>";
+            #format = "{icon}";
+            #format-icons = {
+            #  active = "";
+            #  default = "";
+            #};
             #format-icons = {
             #  "1"="";
             #  "2"="";
@@ -147,6 +153,11 @@ in
             format = "{}% <span font='11'></span>";
             interval = 1;
           };
+          tray = {
+            icon-size = 20;
+            tooltip = false;
+            spacing = 10;
+          };
           battery = {
             interval = 60;
             states = {
@@ -186,7 +197,7 @@ in
             format-ethernet = "<span font='12'></span>";
             #format-ethernet = "<span font='12'></span> {ifname}: {ipaddr}/{cidr}";
             format-linked = "<span font='12'>睊</span> {ifname} (No IP)";
-            format-disconnected = "<span font='12'>睊</span> Not connected";
+            format-disconnected = "睊";
             #format-alt = "{ifname}: {ipaddr}/{cidr}";
             tooltip-format = "{essid} {ipaddr}/{cidr}";
             on-click-right = "${pkgs.alacritty}/bin/alacritty -e nmtui";

@@ -10,11 +10,11 @@ let
     general {
       #main_mod=SUPER
       border_size = 2
-      gaps_in = 0
-      gaps_out = 3
+      gaps_in = 5
+      gaps_out = 5
       col.active_border=rgb(a7c7e7)
       col.inactive_border=rgb(000000)
-      layout=master # master | dwindle
+      layout=dwindle # master | dwindle
     }
 
     input {
@@ -24,13 +24,25 @@ let
     }
 
     decoration {
-      rounding=3
+      rounding=8
       multisample_edges=true
       active_opacity=1
-      inactive_opacity=0.93
+      inactive_opacity=0.87
       fullscreen_opacity=1
-      blur=no
-      drop_shadow=true
+
+      blur=true 
+      blur_size=4
+      blur_passes=4
+      blur_new_optimizations = true
+      blur_xray = true
+      blur_ignore_opacity = true
+
+      drop_shadow = true
+      shadow_ignore_window = true
+      shadow_offset = 4 4
+      shadow_range = 4
+      shadow_render_power = 2
+      col.shadow = 0x66000000
     }
     
     # Mathhias animations
@@ -45,18 +57,24 @@ let
 
     animations {
       enabled=1
-      bezier = overshot, 0.13, 0.99, 0.29, 1.1
+      bezier = overshot, 0.05, 0.9, 0.1, 1.05
       animation = windows, 1, 4, overshot, slide
-      animation = windowsOut, 1, 5, default, popin 80%
-      animation = border, 1, 5, default
+      animation = windowsOut, 1, 4, default, slide
+      animation = border, 1, 10, default
       animation = fade, 1, 8, default
-      animation = workspaces, 1, 6, overshot, slidevert
+      animation = workspaces, 1, 6, default, slidevert
     }
 
     gestures {
       workspace_swipe=true
       workspace_swipe_fingers=3
       workspace_swipe_distance=100
+    }
+
+    misc {
+      disable_hyprland_logo=true
+
+      focus_on_activate=true
     }
 
     debug {
@@ -69,22 +87,30 @@ let
     bind=SUPER,Return,exec,${pkgs.alacritty}/bin/alacritty
     bind=SUPER,Q,killactive,
     bind=SUPER,Escape,exec,~/.config/wofi/powermenu.sh
-    bind=SUPER,E,exec,${pkgs.pcmanfm}/bin/pcmanfm
-    bind=SUPER,H,togglefloating,
-    bind=SUPER,Space,exec,wofi --show drun --columns 2 -I -s ~/.config/wofi/style.css 
+    # bind=SUPER,E,exec,${pkgs.pcmanfm}/bin/pcmanfm
+    bind=SUPER,E,exec,${pkgs.cinnamon.nemo}/bin/nemo
+    # bind=SUPER,E,exec,${pkgs.gnome.nautilus}/bin/nautilus
+    bind=SUPER,T,togglefloating,
+    bind=SUPER,Space,exec,wofi --show drun --columns 1 -I -s ~/.config/wofi/style.css 
     bind=SUPER,P,pseudo,
     bind=SUPER,F,fullscreen,
     bind=SUPER,R,forcerendererreload
 
-    bind=SUPER,left,movefocus,l
-    bind=SUPER,right,movefocus,r
-    bind=SUPER,up,movefocus,u
-    bind=SUPER,down,movefocus,d
+    #bind=SUPER,left,movefocus,l
+    #bind=SUPER,right,movefocus,r
+    #bind=SUPER,up,movefocus,u
+    #bind=SUPER,down,movefocus,d
     
-    bind=SUPERSHIFT,left,movewindow,l
-    bind=SUPERSHIFT,right,movewindow,r
-    bind=SUPERSHIFT,up,movewindow,u
-    bind=SUPERSHIFT,down,movewindow,d
+    # Vim keybindings
+    bind=SUPER,H,movefocus,l
+    bind=SUPER,L,movefocus,r
+    bind=SUPER,K,movefocus,u
+    bind=SUPER,J,movefocus,d
+
+    bind=SUPERSHIFT,H,movewindow,l
+    bind=SUPERSHIFT,L,movewindow,r
+    bind=SUPERSHIFT,K,movewindow,u
+    bind=SUPERSHIFT,J,movewindow,d
 
     bind=ALT,1,workspace,1
     bind=ALT,2,workspace,2
@@ -112,10 +138,10 @@ let
     bind=ALTSHIFT,right,movetoworkspace,+1
     bind=ALTSHIFT,left,movetoworkspace,-1
 
-    bind=CTRL,right,resizeactive,20 0
-    bind=CTRL,left,resizeactive,-20 0
-    bind=CTRL,up,resizeactive,0 -20
-    bind=CTRL,down,resizeactive,0 20
+    bind=CTRL,L,resizeactive,20 0
+    bind=CTRL,H,resizeactive,-20 0
+    bind=CTRL,K,resizeactive,0 -20
+    bind=CTRL,J,resizeactive,0 20
 
     # Waybar Toggle
     bind=SUPER,O,exec,killall -SIGUSR1 .waybar-wrapped
@@ -130,11 +156,17 @@ let
 
     bind=,print,exec,${pkgs.grim}/bin/grim -g "$(${pkgs.slurp}/bin/slurp)" - | ${pkgs.swappy}/bin/swappy -f - -o ~/Pictures/$(date +%Hh_%Mm_%Ss_%d_%B_%Y).png && notify-send "Saved to ~/Pictures/$(date +%Hh_%Mm_%Ss_%d_%B_%Y).png"
 
-    windowrule=float,^(Rofi)$
+    windowrule=float,^(pavucontrol)$
+    windowrule=float,^(blueman-manager)$
+    # windowrule=float,^(pcmanfm)$
+    windowrule=float,^(nemo)$
+    #windowrule=float,^(files)$
+    windowrulev2 = float, class:^(firefox)$, title:^(Firefox — Sharing Indicator)$
+    windowrule=float,^(wofi)$
 
     # Auto start
     exec-once = ${pkgs.waybar}/bin/waybar &
-    exec-once=${pkgs.swaybg}/bin/swaybg -m center -i $HOME/Pictures/dark-simple.png
+    exec-once=${pkgs.swaybg}/bin/swaybg -m center -i $HOME/Pictures/ocean.png
     exec-once=${pkgs.networkmanagerapplet}/bin/nm-applet --indicator
     exec-once=${pkgs.blueman}/bin/blueman-applet
   '';
@@ -146,5 +178,6 @@ in
       pamixer
     ];
   };
+
   xdg.configFile."hypr/hyprland.conf".text = hyprlandConf;
 }

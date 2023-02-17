@@ -23,6 +23,7 @@
         ];
 	character = {
           success_symbol = "[λ](bold purple)";
+          error_symbol = "[λ](bold red)";
         };
 	directory = {
           format = "[ $path ](white)";

@@ -38,7 +38,9 @@
   # Module imports
   imports = 
     #[(import ./modules/desktop/bspwm/home.nix)] ++
+    #[(import ./modules/desktop/sway/home.nix)] ++
     [(import ./modules/desktop/hyprland/home.nix)] ++
+    [(import ./modules/programming.nix)] ++
     (import ./modules/programs) ++
     (import ./modules/editors) ++
     (import ./modules/services);
@@ -46,27 +48,39 @@
   home.packages = with pkgs; [
       # Terminal
       btop
+      htop
+      cbonsai
+      cmatrix
       pfetch
       nitch
       ranger
-      cbonsai
-      cmatrix
-      foot
+      starfetch
 
       # Video/Audio
       feh
+      obs-studio
       mpv
       pavucontrol
       vlc
       stremio
+      youtube-dl
 
       # Apps
+      amberol
+      brave
       firefox
+      google-chrome
       inkscape
+      obsidian
+      via
       vscode-with-extensions
 
       # File Management
-      pcmanfm
+      font-manager
+      okular
+      popsicle
+      cinnamon.nemo
+      #gnome.nautilus
       unzip 
       unrar
       zip
@@ -76,7 +90,6 @@
   ];
 
   programs = {
-    emacs.enable = true;
     zathura = {
       enable = true;
 
@@ -93,16 +106,6 @@
     network-manager-applet.enable = true;  # Network
     blueman-applet.enable = true;
 
-    flameshot = {
-      enable = true;
-      settings = {
-         General = {
-	    disabledTrayIcon = false;
-	    startupLaunch = true;
-	 };
-      };
-    };
-
     polybar = {
       enable = true;
       script = ''
@@ -111,25 +114,39 @@
     };
   };
 
+  home.pointerCursor = {
+    gtk.enable = true;
+    #name = "Dracula-cursors";
+    #package = pkgs.dracula-theme;
+    #name = "Catppuccin-Mocha-Dark-Cursors";
+    #package = pkgs.catppuccin-cursors.mochaDark;
+    name = "Catppuccin-Latte-Light-Cursors";
+    package = pkgs.catppuccin-cursors.latteLight;
+    #name = "WhiteSur-cursors";
+    #package = pkgs.whitesur-gtk-theme;
+    size = 32;
+  };
+
   gtk = {
     enable = true;
     theme = {
-      # name = "Dracula";
-      # name = "Catppuccin-Dark";
-      # package = pkgs.dracula-theme;
-      # package = pkgs.catppuccin-gtk;
-      name = "WhiteSur";
-      package = pkgs.whitesur-gtk-theme;
+      name = "Dracula";
+      package = pkgs.dracula-theme;
+      #name = "Catppuccin-Dark";
+      #package = pkgs.catppuccin-gtk;
+      #name = "WhiteSur";
+      #package = pkgs.whitesur-gtk-theme;
     };
     iconTheme = {
-      # name = "Papirus-Dark";
-      # package = pkgs.papirus-icon-theme;
+      #name = "Papirus-Dark";
+      #package = pkgs.papirus-icon-theme;
       name = "WhiteSur";
       package = pkgs.whitesur-icon-theme;
     };
     font = {
       # name = "JetBrains Mono Medium";
-      name = "Roboto Mono Medium";
+      # name = "Roboto Mono Medium";
+      name = "Roboto Light Medium";
       # name = "FiraCode Nerd Font Mono Medium";
     };
   };

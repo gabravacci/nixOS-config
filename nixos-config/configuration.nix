@@ -30,6 +30,7 @@ in
     #[(import ./modules/desktop/bspwm/default.nix)];
     #[(import ./modules/desktop/gnome/default.nix)] ++
     #[(import ./modules/desktop/plasma/default.nix)] ++
+    #[(import ./modules/desktop/sway/default.nix)] ++
     [(import ./modules/desktop/hyprland/default.nix)];
     # starship needs to be in config instead of home-manager
     # for some reason
@@ -68,13 +69,17 @@ in
   };
 
   fonts.fonts = with pkgs; [
-    jetbrains-mono
+    # icons
     font-awesome
+
+    # fonts
+    jetbrains-mono
     corefonts
     roboto
     roboto-mono
     noto-fonts
     iosevka-comfy.comfy
+    terminus_font
     (nerdfonts.override {
       fonts = [
         "FiraCode"
@@ -87,6 +92,7 @@ in
   services = {
     blueman.enable = true;
   };
+  hardware.bluetooth.enable = true;
 
   # Enable sound with pipewire.
   sound.enable = true;
@@ -113,6 +119,12 @@ in
       enable = true;
       enableCompletion = true;
       syntaxHighlighting.enable = true;
+      shellAliases = {
+        rebuild = "sudo nixos-rebuild switch --flake ~/nixos-config#gabe";
+        ls = "exa";
+        l = "exa -l";
+        sf = "starfetch";
+      };
     };
     light.enable = true;
   };
@@ -124,12 +136,8 @@ in
     extraGroups = [ "networkmanager" "wheel" "video" "audio" ];
     shell = pkgs.zsh;
     packages = with pkgs; [
-      firefox
-      # neovim
       git
-    #  thunderbird
     ];
-
   };
 
 
@@ -145,13 +153,14 @@ in
       VISUAL = "nvim";
     };
     systemPackages = with pkgs; [
-     killall
-     spotify
      discord 
-     wget
+     exa
+     emacs
+     killall
      nano
      networkmanagerapplet
-     xterm
+     spotify
+     wget
     ];
   };
 
