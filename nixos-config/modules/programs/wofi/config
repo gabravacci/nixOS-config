@@ -1,4 +1,6 @@
 location=center
+width=25%
+height=25%
 show=drun
 prompt=Search...
 filter_rate=100
@@ -10,5 +12,5 @@ content_halign=fill
 insensitive=true
 allow_images=true
 image_size=40
-gtk_dark=true
+gtk_dark=false
 

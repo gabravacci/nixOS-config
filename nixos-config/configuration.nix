@@ -1,4 +1,4 @@
-# Edit this configuration file to define what should be installed on
+# Edit this configuration file to define what should be installed onconfigur
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running ‘nixos-help’).
 
@@ -29,11 +29,7 @@ in
     [(import ./modules/programs/starship.nix)] ++
     #[(import ./modules/desktop/bspwm/default.nix)];
     #[(import ./modules/desktop/gnome/default.nix)] ++
-    #[(import ./modules/desktop/plasma/default.nix)] ++
-    #[(import ./modules/desktop/sway/default.nix)] ++
     [(import ./modules/desktop/hyprland/default.nix)];
-    # starship needs to be in config instead of home-manager
-    # for some reason
 
   # Bootloader.
   boot.loader.systemd-boot.enable = true;
@@ -80,6 +76,7 @@ in
     noto-fonts
     iosevka-comfy.comfy
     terminus_font
+    tamsyn
     (nerdfonts.override {
       fonts = [
         "FiraCode"
@@ -121,8 +118,8 @@ in
       syntaxHighlighting.enable = true;
       shellAliases = {
         rebuild = "sudo nixos-rebuild switch --flake ~/nixos-config#gabe";
-        ls = "exa";
-        l = "exa -l";
+        ls = "exa --icons";
+        l = "exa -l --icons";
         sf = "starfetch";
       };
     };
@@ -130,7 +127,7 @@ in
   };
 
   # Define a user account. Don't forget to set a password with ‘passwd’.
-  users.users.gabe = {
+  users.users.${user} = {
     isNormalUser = true;
     description = "Gabriel";
     extraGroups = [ "networkmanager" "wheel" "video" "audio" ];
@@ -156,10 +153,12 @@ in
      discord 
      exa
      emacs
+     groff
      killall
-     nano
      networkmanagerapplet
+     ripgrep
      spotify
+     tlp                    # Laptop power management
      wget
     ];
   };

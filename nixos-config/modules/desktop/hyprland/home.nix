@@ -11,8 +11,8 @@ let
       #main_mod=SUPER
       border_size = 2
       gaps_in = 5
-      gaps_out = 5
-      col.active_border=rgb(a7c7e7)
+      gaps_out = 7
+      col.active_border=0xFF6a6f87
       col.inactive_border=rgb(000000)
       layout=dwindle # master | dwindle
     }
@@ -24,7 +24,7 @@ let
     }
 
     decoration {
-      rounding=8
+      rounding=0
       multisample_edges=true
       active_opacity=1
       inactive_opacity=0.87
@@ -84,7 +84,7 @@ let
     bindm=SUPER,mouse:272,movewindow
     bindm=SUPER,mouse:273,resizewindow
 
-    bind=SUPER,Return,exec,${pkgs.alacritty}/bin/alacritty
+    bind=SUPER,Return,exec,${pkgs.foot}/bin/foot
     bind=SUPER,Q,killactive,
     bind=SUPER,Escape,exec,~/.config/wofi/powermenu.sh
     # bind=SUPER,E,exec,${pkgs.pcmanfm}/bin/pcmanfm
@@ -112,18 +112,18 @@ let
     bind=SUPERSHIFT,K,movewindow,u
     bind=SUPERSHIFT,J,movewindow,d
 
-    bind=ALT,1,workspace,1
-    bind=ALT,2,workspace,2
-    bind=ALT,3,workspace,3
-    bind=ALT,4,workspace,4
-    bind=ALT,5,workspace,5
-    bind=ALT,6,workspace,6
-    bind=ALT,7,workspace,7
-    bind=ALT,8,workspace,8
-    bind=ALT,9,workspace,9
-    bind=ALT,0,workspace,10
-    bind=ALT,right,workspace,+1
-    bind=ALT,left,workspace,-1
+    bind=SUPER,1,workspace,1
+    bind=SUPER,2,workspace,2
+    bind=SUPER,3,workspace,3
+    bind=SUPER,4,workspace,4
+    bind=SUPER,5,workspace,5
+    bind=SUPER,6,workspace,6
+    bind=SUPER,7,workspace,7
+    bind=SUPER,8,workspace,8
+    bind=SUPER,9,workspace,9
+    bind=SUPER,0,workspace,10
+    bind=SUPER,right,workspace,+1
+    bind=SUPER,left,workspace,-1
 
     bind=ALTSHIFT,1,movetoworkspace,1
     bind=ALTSHIFT,2,movetoworkspace,2
@@ -138,10 +138,10 @@ let
     bind=ALTSHIFT,right,movetoworkspace,+1
     bind=ALTSHIFT,left,movetoworkspace,-1
 
-    bind=CTRL,L,resizeactive,20 0
-    bind=CTRL,H,resizeactive,-20 0
-    bind=CTRL,K,resizeactive,0 -20
-    bind=CTRL,J,resizeactive,0 20
+    bind=CTRL,RIGHT,resizeactive,20 0
+    bind=CTRL,LEFT,resizeactive,-20 0
+    bind=CTRL,UP,resizeactive,0 -20
+    bind=CTRL,DOWN,resizeactive,0 20
 
     # Waybar Toggle
     bind=SUPER,O,exec,killall -SIGUSR1 .waybar-wrapped
@@ -166,7 +166,8 @@ let
 
     # Auto start
     exec-once = ${pkgs.waybar}/bin/waybar &
-    exec-once=${pkgs.swaybg}/bin/swaybg -m center -i $HOME/Pictures/ocean.png
+    # exec-once=${pkgs.swaybg}/bin/swaybg -m center -i $HOME/Pictures/ocean.png
+    exec-once=cd /home/gabe/nixos-config/modules/desktop/hyprland/ && ./random_wallpapers.sh
     exec-once=${pkgs.networkmanagerapplet}/bin/nm-applet --indicator
     exec-once=${pkgs.blueman}/bin/blueman-applet
   '';

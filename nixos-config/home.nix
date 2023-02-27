@@ -4,6 +4,7 @@
 # flake.nix 
 #   ├─ home.nix *
 #   └─ ./modules   
+#        ├─ programming.nix
 #        ├─ ./programs
 #        │    └─ default.nix 
 #        ├─ ./editors 
@@ -38,7 +39,7 @@
   # Module imports
   imports = 
     #[(import ./modules/desktop/bspwm/home.nix)] ++
-    #[(import ./modules/desktop/sway/home.nix)] ++
+    [(import ./git.nix)] ++
     [(import ./modules/desktop/hyprland/home.nix)] ++
     [(import ./modules/programming.nix)] ++
     (import ./modules/programs) ++
@@ -47,10 +48,12 @@
 
   home.packages = with pkgs; [
       # Terminal
+      asciiquarium
       btop
       htop
       cbonsai
       cmatrix
+      fzf
       pfetch
       nitch
       ranger
@@ -58,10 +61,11 @@
 
       # Video/Audio
       feh
+      ffmpeg
+      lsix
       obs-studio
       mpv
       pavucontrol
-      vlc
       stremio
       youtube-dl
 
@@ -70,22 +74,21 @@
       brave
       firefox
       google-chrome
+      hugo
       inkscape
-      obsidian
+      logseq
       via
-      vscode-with-extensions
-
+      
       # File Management
       font-manager
       okular
       popsicle
       cinnamon.nemo
-      #gnome.nautilus
       unzip 
       unrar
       zip
 
-      # LaTeX (band-aid)
+      # LaTeX (sorry!)
       texlive.combined.scheme-full
   ];
 
@@ -118,10 +121,10 @@
     gtk.enable = true;
     #name = "Dracula-cursors";
     #package = pkgs.dracula-theme;
-    #name = "Catppuccin-Mocha-Dark-Cursors";
-    #package = pkgs.catppuccin-cursors.mochaDark;
-    name = "Catppuccin-Latte-Light-Cursors";
-    package = pkgs.catppuccin-cursors.latteLight;
+    name = "Catppuccin-Mocha-Dark-Cursors";
+    package = pkgs.catppuccin-cursors.mochaDark;
+    # name = "Catppuccin-Latte-Light-Cursors";
+    # package = pkgs.catppuccin-cursors.latteLight;
     #name = "WhiteSur-cursors";
     #package = pkgs.whitesur-gtk-theme;
     size = 32;
@@ -130,10 +133,12 @@
   gtk = {
     enable = true;
     theme = {
-      name = "Dracula";
-      package = pkgs.dracula-theme;
-      #name = "Catppuccin-Dark";
-      #package = pkgs.catppuccin-gtk;
+      # name = "Dracula";
+      # package = pkgs.dracula-theme;
+      # name = "Nord";
+      # package = pkgs.nordic;
+      name = "Catppuccin-Dark";
+      package = pkgs.catppuccin-gtk;
       #name = "WhiteSur";
       #package = pkgs.whitesur-gtk-theme;
     };

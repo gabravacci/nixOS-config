@@ -2,7 +2,7 @@
 #  Sway Home manager configuration
 #
 
-{ config, lib, pkgs, ... }:
+{ config, lib, pkgs, host, ... }:
 
 {
   wayland.windowManager.sway = {
@@ -10,28 +10,17 @@
     systemdIntegration = true;                          # Enable sway-session.target to link to graphical-session.target for systemd
     config = rec {                                      # Sway configuration
       modifier = "Mod4";
-      terminal = "${pkgs.alacritty}/bin/alacritty";
-      menu = "wofi --show drun --columns 2 -I -s ~/.config/wofi/style.css";
+      terminal = "${pkgs.foot}/bin/foot";
+      menu = "${pkgs.wofi}/bin/wofi --drun";
 
       startup = [                                       # Run commands on Sway startup
         {command = "${pkgs.autotiling}/bin/autotiling"; always = true;} # Tiling Script
-        ##{command = ''
-        ##  ${pkgs.swayidle}/bin/swayidle -w \
-        ##      before-sleep '${pkgs.swaylock-fancy}/bin/swaylock-fancy'
-        ##''; always = true;}                           # Lock on lid close (currently disabled because using laptop as temporary server)
-        #{command = ''
-        #  ${pkgs.swayidle}/bin/swayidle \
-        #    timeout 120 '${pkgs.swaylock-fancy}/bin/swaylock-fancy' \
-        #    timeout 240 'swaymsg "output * dpms off"' \
-        #    resume 'swaymsg "output * dpms on"' \
-        #    before-sleep '${pkgs.swaylock-fancy}/bin/swaylock-fancy'
-        #''; always = true;}                            # Auto lock\
       ];
 
       bars = [];                                        # No bar because using Waybar
 
       fonts = {                                         # Font used for window tiles, navbar, ...
-        names = [ "Roboto Light" ];
+        names = [ "Terminus" ];
         size = 10.0;
       };
 
@@ -53,11 +42,6 @@
           xkb_numlock = "enabled";
         };
       };
-
-      output = {
-        "*".bg = "~/Pictures/dark-simple.png fill";#
-        "*".scale = "1";#
-      };
       
       defaultWorkspace = "workspace number 1";
 
@@ -70,9 +54,11 @@
       };
 
       keybindings = {                                   # Hotkeys
+        "${modifier}+Escape" = "exec swaymsg exit";     # Exit Sway
         "${modifier}+Return" = "exec ${terminal}";      # Open terminal
         "${modifier}+space" = "exec ${menu}";           # Open menu
-        "${modifier}+e" = "exec ${pkgs.pcmanfm}/bin/pcmanfm"; # File Manager
+        "${modifier}+e" = "exec ${pkgs.cinnamon.nemo}/bin/nemo"; # File Manager
+        "${modifier}+l" = "exec ${pkgs.swaylock-fancy}/bin/swaylock-fancy"; # Lock Screen
 
         "${modifier}+r" = "reload";                     # Reload environment
         "${modifier}+q" = "kill";                       # Kill container
@@ -120,10 +106,6 @@
         "XF86AudioRaiseVolume" = "exec ${pkgs.pamixer}/bin/pamixer -i 10";
         "XF86AudioMute" = "exec ${pkgs.pamixer}/bin/pamixer -t";             #Media control
         "XF86AudioMicMute" = "exec ${pkgs.pamixer}/bin/pamixer --default-source -t";
-        #"XF86AudioPlay" = "exec ${pkgs.playerctl}/bin/playerctl play-pause";
-        #"XF86AudioNext" = "exec ${pkgs.playerctl}/bin/playerctl next";
-        #"XF86AudioPrev" = "exec ${pkgs.playerctl}/bin/playerctl previous";
-        #
         "XF86MonBrightnessDown" = "exec ${pkgs.light}/bin/light -U  5";      # Display brightness control
         "XF86MonBrightnessUp" = "exec ${pkgs.light}/bin/light -A 5";
       };
@@ -140,5 +122,11 @@
       for_window [app_id=".blueman-manager-wrapped"] floating enable
       for_window [title="Picture in picture"] floating enable, move position 1205 634, resize set 700 400, sticky enable
     '';                                    # $ swaymsg -t get_tree or get_outputs
+    extraSessionCommands = ''
+      #export WLR_NO_HARDWARE_CURSORS="1";  # Needed for cursor in vm
+      export XDG_SESSION_TYPE=wayland
+      export XDG_SESSION_DESKTOP=sway
+      export XDG_CURRENT_DESKTOP=sway
+    '';
   };
 }

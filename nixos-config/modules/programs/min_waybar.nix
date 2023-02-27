@@ -34,7 +34,7 @@ in
         * {
           border: none;
           border-radius: 0;
-          font-family: Roboto;
+          font-family: "FiraCode Nerd Font Mono";
           font-size: 16px;
           min-height: 0;
         }
@@ -45,9 +45,9 @@ in
 
         .modules-center {
           background: #1d1f21;
-          min-width: 100px;
+          min-width: 50px;
           color: white;
-          border-radius: 10px;
+          border-radius: 15px;
           margin-top: 10px;
           padding-left: 10px;
           padding-right: 10px;
@@ -60,7 +60,7 @@ in
           padding-left: 10px;
           margin-right: 10px;
           margin-top: 10px;
-          border-radius: 10px;
+          border-radius: 15px;
         }
 
         #battery {
@@ -86,7 +86,7 @@ in
         #workspaces {
           margin-top: 10px;
           margin-left: 10px;
-          border-radius: 10px;
+          border-radius: 15px;
           background: #1d1f21;
         }
 
@@ -94,21 +94,22 @@ in
           padding: 5px 10px;
           font-weight: 600;
           background: transparent;
-          border-radius: 20%;
+          border-radius: 15px;
           color: white;
         }
 
         #workspaces button.active {
-          background-color: #454545;
+          color: #82AAFF;
         }
 
         #workspaces button:hover {
-          background-color: #bd93f9;
+          background-color: #82AAFF;
+          color: #1a1e2a;
         }
-
+        
         tooltip {
-          background: rgba(43, 48, 59, 0.7);
-          border: 1px solid rgba(100, 114, 125, 0.5);
+          background: rgb(31, 32, 36);
+          border: 1px solid rgb(197, 197, 197);
         }
         tooltip label {
           color: white;
@@ -135,18 +136,21 @@ in
           height = 16;            # 0 | 16
 
           modules-left = [ "wlr/workspaces" ];
-          modules-center = [ "hyprland/window" ];
-          modules-right = [ "battery" "pulseaudio" "tray" "clock" ];
+          # modules-center = [ "hyprland/window" ];
+          modules-center = [ "clock" ];
+          modules-right = [ "battery" "custom/menu" "pulseaudio" "custom/menu" "tray" ]; 
           "hyprland/window" = {
             format = "{}";
           };
+
           "wlr/workspaces" = {
             format = "{name}";
             active-only = false;
             on-click = "activate";
           };
+
           clock = {
-            format = "{:%b %d %H:%M}";
+            format = "{:%b %d  %H:%M}";
             tooltip-format = "<big>{:%Y %B}</big>\n<tt><small>{calendar}</small></tt>";
             #format-alt = "{:%A, %B %d, %Y} ";
           };
@@ -163,10 +167,15 @@ in
               critical = 15;
             };
             format = "{icon} {capacity}%";
+            # format-charging = "█◘◘◘█ {capacity}%";
             format-charging = " {capacity}%";
+            # format-icons = [ "█░░░░" "██░░░" "███░░" "████░" "█████" ]; # Terminus icons
             format-icons = ["" "" "" "" ""]; # FiraCode icons
-            #format-icons = [ "" "" "" "" "" ]; # JetBrains icons
             max-length = 25;
+          };
+          "custom/menu" = {
+            format = "|";
+            tooltip = false;
           };
           pulseaudio = {
             format = "{icon} {volume}% {format_source}";
