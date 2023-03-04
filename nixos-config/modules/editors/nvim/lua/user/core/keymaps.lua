@@ -1,6 +1,7 @@
 vim.g.mapleader = " "
 
 local keymap = vim.keymap -- conciseness
+local api = vim.api 
 
 -- general keymaps
 keymap.set("n","<leader>nh", ":nohl<CR>") -- clear search highlights
@@ -44,3 +45,7 @@ keymap.set("n", "<leader>fh", "<cmd>Telescope help_tags<cr>") -- list available 
 
 -- undotree
 keymap.set("n", "<leader>u", vim.cmd.UndotreeToggle)
+
+-- zen mode
+keymap.set("n", "<leader>zm", ":TZMinimalist<CR>")
+keymap.set("n", "<leader>za", ":TZAtaraxis<CR>")

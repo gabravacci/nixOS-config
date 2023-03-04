@@ -10,7 +10,7 @@ let
     general {
       #main_mod=SUPER
       border_size = 2
-      gaps_in = 5
+      gaps_in = 4
       gaps_out = 7
       col.active_border=0xFF6a6f87
       col.inactive_border=rgb(000000)
@@ -24,14 +24,14 @@ let
     }
 
     decoration {
-      rounding=0
+      rounding=7
       multisample_edges=true
       active_opacity=1
       inactive_opacity=0.87
       fullscreen_opacity=1
 
       blur=true 
-      blur_size=4
+      blur_size=2
       blur_passes=4
       blur_new_optimizations = true
       blur_xray = true

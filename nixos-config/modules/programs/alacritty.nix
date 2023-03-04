@@ -56,7 +56,7 @@
             lines = 25;
           };
           padding = {
-            x = 40;
+            x = 24;
             y = 12;
           };
 
@@ -64,14 +64,17 @@
         startup_mode = "Windowed";
         };
         font = { 
-          size = 14;
+          size = 12;
 
           #normal.family = "Roboto Mono";
           #bold.family = "Roboto Mono";
           #italic.family = "Roboto Mono";
-          normal.family = "Roboto Mono";
-          bold.family = "Roboto Mono";
-          italic.family = "Roboto Mono";
+          normal.family = "FiraCode Nerd Font Mono";
+          bold.family = "FiraCode Nerd Font Mono";
+          italic.family = "FiraCode Nerd Font Mono";
+          # normal.family = "Iosevka Nerd Font";
+          # bold.family = "Iosevka Nerd Font";
+          # italic.family = "Iosevka Nerd Font";
         };
       };
     };

@@ -13,10 +13,10 @@
         main = {
           term = "xterm-256color";
 
-          font = "FiraCode Nerd Font Mono:size=7";
+          font = "Iosevka Nerd Font:size=7";
           dpi-aware = "yes";
 
-          pad = "52x24";
+          pad = "48x12";
         };
 
         colors = {

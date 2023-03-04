@@ -39,6 +39,7 @@
   # Module imports
   imports = 
     #[(import ./modules/desktop/bspwm/home.nix)] ++
+    # [(import ./modules/desktop/sway/home.nix)] ++
     [(import ./git.nix)] ++
     [(import ./modules/desktop/hyprland/home.nix)] ++
     [(import ./modules/programming.nix)] ++
@@ -48,7 +49,7 @@
 
   home.packages = with pkgs; [
       # Terminal
-      asciiquarium
+      # asciiquarium
       btop
       htop
       cbonsai
@@ -61,16 +62,17 @@
 
       # Video/Audio
       feh
-      ffmpeg
+      # ffmpeg
       lsix
       obs-studio
       mpv
       pavucontrol
       stremio
-      youtube-dl
+      # w3m
+      # youtube-dl     # Youtube video downloader
 
       # Apps
-      amberol
+      # amberol        # Music Player
       brave
       firefox
       google-chrome
@@ -82,8 +84,9 @@
       # File Management
       font-manager
       okular
-      popsicle
+      # popsicle        # USB Flashing Tool
       cinnamon.nemo
+      p7zip
       unzip 
       unrar
       zip

@@ -39,6 +39,9 @@ return packer.startup(function (use)
   -- use("bluz71/vim-nightfly-guicolors")
   use("folke/tokyonight.nvim")
 
+  -- zen mode
+  use("Pocco81/true-zen.nvim")
+
   -- window management
   use("szw/vim-maximizer") -- maximize and minimize functionality
   use("christoomey/vim-tmux-navigator") -- split window navigation

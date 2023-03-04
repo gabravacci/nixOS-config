@@ -114,7 +114,6 @@
       set $opacity 0.8
       for_window [class=".*"] opacity 0.95
       for_window [app_id=".*"] opacity 0.95
-      for_window [app_id="pcmanfm"] opacity 0.95, floating enable
       for_window [app_id="Alacritty"] opacity $opacity
       for_window [title="drun"] opacity $opacity
       for_window [class="Emacs"] opacity $opacity

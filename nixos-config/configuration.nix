@@ -26,15 +26,26 @@ in
   #  ];
   imports = 
     [(import ./hardware-configuration.nix)]++
+    [(import ./modules/programs/games.nix)] ++
     [(import ./modules/programs/starship.nix)] ++
     #[(import ./modules/desktop/bspwm/default.nix)];
     #[(import ./modules/desktop/gnome/default.nix)] ++
+    #[(import ./modules/desktop/sway/default.nix)] ++
     [(import ./modules/desktop/hyprland/default.nix)];
 
   # Bootloader.
-  boot.loader.systemd-boot.enable = true;
+  # boot.loader.systemd-boot.enable = true;
+
+  boot.loader.grub = {
+    enable = true;
+    efiSupport = true;
+    version = 2;
+    devices = [ "nodev" ]; 
+    useOSProber = true;
+  };
+
   boot.loader.efi.canTouchEfiVariables = true;
-  boot.loader.efi.efiSysMountPoint = "/boot/efi";
+  boot.loader.efi.efiSysMountPoint = "/boot/efi";  
 
   networking.hostName = "nixos"; # Define your hostname.
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
@@ -74,12 +85,12 @@ in
     roboto
     roboto-mono
     noto-fonts
-    iosevka-comfy.comfy
-    terminus_font
     tamsyn
     (nerdfonts.override {
       fonts = [
         "FiraCode"
+        "Iosevka"
+        "Terminus"
       ];
     })
   ];
