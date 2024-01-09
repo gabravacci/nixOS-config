@@ -13,7 +13,7 @@
 #             └─ default.nix
 #
 
-{ config, lib, pkgs, ... }:
+{ inputs, config, lib, pkgs, ... }:
 
 {
   # Home Manager needs a bit of information about you and the
@@ -39,7 +39,7 @@
   # Module imports
   imports = 
     #[(import ./modules/desktop/bspwm/home.nix)] ++
-    # [(import ./modules/desktop/sway/home.nix)] ++
+    [(import ./modules/desktop/sway/home.nix)] ++
     [(import ./git.nix)] ++
     [(import ./modules/desktop/hyprland/home.nix)] ++
     [(import ./modules/programming.nix)] ++
@@ -50,13 +50,15 @@
   home.packages = with pkgs; [
       # Terminal
       # asciiquarium
-      btop
+      # btop
       htop
-      cbonsai
-      cmatrix
+      iftop
+      # cbonsai
+      # cmatrix
       fzf
+      gum
       pfetch
-      nitch
+      # nitch
       ranger
       starfetch
 
@@ -68,24 +70,26 @@
       mpv
       pavucontrol
       stremio
-      # w3m
-      # youtube-dl     # Youtube video downloader
+      youtube-dl     # Youtube video downloader
+      yt-dlp         # extension for more websites
 
       # Apps
       # amberol        # Music Player
       brave
       firefox
-      google-chrome
+      nyxt
       hugo
+      geany
       inkscape
-      logseq
-      via
+      obsidian
+      # logseq
+      # via
       
       # File Management
       font-manager
       okular
-      # popsicle        # USB Flashing Tool
-      cinnamon.nemo
+      pcmanfm
+      stow
       p7zip
       unzip 
       unrar
@@ -93,6 +97,7 @@
 
       # LaTeX (sorry!)
       texlive.combined.scheme-full
+      tectonic
   ];
 
   programs = {
@@ -104,33 +109,76 @@
 
         set default-bg "#10151a"
 
-        set recolor-lightcolor "#10151a"'';
+        set recolor-lightcolor "#161616"'';
+    };
+    # TODO: move this to its own module
+    emacs = {
+      enable = true;
+      package = pkgs.emacs-pgtk;
+      extraPackages = (epkgs: (with epkgs; [
+        olivetti
+        ivy
+        ivy-rich
+        all-the-icons-ivy-rich
+        lsp-mode
+        lsp-ui
+        treemacs
+        evil-nerd-commenter
+        nix-mode
+        haskell-mode
+        lsp-pyright
+        lsp-java
+        rust-mode
+        web-mode
+        cider
+        sly
+        slime
+        company
+        company-box 
+        vterm
+        projectile # git
+        magit
+        helpful
+        which-key  
+        rainbow-delimiters # for Lisp
+        all-the-icons
+        all-the-icons-dired
+        doom-modeline
+        nano-modeline
+        org-fragtog
+        org
+        org-bullets
+        org-appear
+        imenu-list
+        auctex
+        engrave-faces
+        counsel
+        general
+        evil
+        evil-collection
+        doom-themes
+        acme-theme
+        nano-theme
+      ]));
     };
   };
 
   services = {
-    network-manager-applet.enable = true;  # Network
+    # network-manager-applet.enable = true;  # Network
     blueman-applet.enable = true;
-
-    polybar = {
-      enable = true;
-      script = ''
-      '';
-      config = ./modules/services/polybar/config.ini;
-    };
   };
 
   home.pointerCursor = {
     gtk.enable = true;
-    #name = "Dracula-cursors";
-    #package = pkgs.dracula-theme;
-    name = "Catppuccin-Mocha-Dark-Cursors";
-    package = pkgs.catppuccin-cursors.mochaDark;
+    # name = "Catppuccin-Mocha-Dark-Cursors";
+    # package = pkgs.catppuccin-cursors.mochaDark;
+    name = "Bibata-Modern-Ice";
+    package = pkgs.bibata-cursors;
     # name = "Catppuccin-Latte-Light-Cursors";
     # package = pkgs.catppuccin-cursors.latteLight;
     #name = "WhiteSur-cursors";
     #package = pkgs.whitesur-gtk-theme;
-    size = 32;
+    size = 24;
   };
 
   gtk = {
@@ -138,12 +186,18 @@
     theme = {
       # name = "Dracula";
       # package = pkgs.dracula-theme;
-      # name = "Nord";
-      # package = pkgs.nordic;
-      name = "Catppuccin-Dark";
-      package = pkgs.catppuccin-gtk;
-      #name = "WhiteSur";
-      #package = pkgs.whitesur-gtk-theme;
+      # name = "Skeu";
+      # package = pkgs.skeu;
+      # name = "Clearlooks-Phenix";
+      # package = pkgs.clearlooks-phenix;
+      # name = "TraditionalOk";   # Menta | TraditionalGreen | BlackMATE? |  
+      # package = pkgs.mate.mate-themes;
+      # name = "Gruvbox-Dark-B";
+      # package = pkgs.gruvbox-gtk-theme;
+      # name = "WhiteSur-Dark";
+      # package = pkgs.whitesur-gtk-theme;
+      name = "Colloid-Dark";
+      package = pkgs.colloid-gtk-theme;
     };
     iconTheme = {
       #name = "Papirus-Dark";
@@ -152,10 +206,9 @@
       package = pkgs.whitesur-icon-theme;
     };
     font = {
-      # name = "JetBrains Mono Medium";
+      name = "RobotoMono Nerd Font Light";
       # name = "Roboto Mono Medium";
-      name = "Roboto Light Medium";
-      # name = "FiraCode Nerd Font Mono Medium";
+      # name = "Roboto Light Medium";
     };
   };
 }

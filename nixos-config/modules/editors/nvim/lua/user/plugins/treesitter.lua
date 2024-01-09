@@ -24,6 +24,8 @@ treesitter.setup({
     "bash",
     "c",
     "cpp",
+    "clojure",
+    "commonlisp",
     "elixir",
     "go",
     "json",

@@ -3,20 +3,21 @@
 {
   home.packages = with pkgs; [
       # C
-      gcc
-      # clang
+      # gcc
+      clang
       clang-tools
       cmake
 
       # Clojure
       clojure
+      clojure-lsp
 
       # docker
       docker
 
       # elixir
       elixir
-      elixir_ls
+      # elixir_ls
 
       # Go
       go
@@ -25,6 +26,7 @@
       # Haskell
       cabal2nix
       ghc
+      hugs # interpreter?
       haskell-language-server
       haskellPackages.cabal-install
       haskellPackages.stack

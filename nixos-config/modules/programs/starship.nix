@@ -19,13 +19,14 @@
 # [╰──](white)''
 #         ];
 	      format = lib.concatStrings [
-''$directory
+''$directory$nix_shell 
 $username ''
         ];
 
         directory = {
-          #  i --⟨⟩ α-λ-∗-   ∀ → ⊃ ⟶ Ψ/ψ    
-          format = "[](white)[ $path ](blue)[](white)";
+          #  i ﬦ--⟨⟩ α-λ-∗-   ∀ → ⊃ ⟶ Ψ/ψ    
+          # format = "[](white)[ $path ](blue)[](white)";
+          format = ''[\[](white)[$path](blue)[\]](white)'';
           truncation_symbol = "../";
           truncation_length = 3;
           truncate_to_repo = false;
@@ -49,7 +50,7 @@ $username ''
           disabled = false;
           show_always = true;
           style_user = "white"; 
-          format = "[]($style)";
+          format = "[λ]($style)";
         };
         character = {
           success_symbol = "[>](green)[>](bold blue)[>](green)";
@@ -88,8 +89,9 @@ $username ''
 
         nix_shell = {
           symbol = " ";
-          style = "bg:#c3e88d fg:#1F2024";
-          format = "[ $symbol ]($style)";
+          # style = "bg:#c3e88d fg:#1F2024";
+          style = "green";
+          format = ''--[\[](white)[$symbol]($style)[\]](white)'';
         };
       };
     };

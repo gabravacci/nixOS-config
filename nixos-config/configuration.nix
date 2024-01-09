@@ -12,7 +12,7 @@
 #        ├─ ./desktop (choose)
 #        └─ ./hardware-configuration.nix
 
-{ config, lib, pkgs, ... }:
+{ config, lib, pkgs, inputs, ... }:
 
 # Declare user variable
 let 
@@ -26,11 +26,10 @@ in
   #  ];
   imports = 
     [(import ./hardware-configuration.nix)]++
-    [(import ./modules/programs/games.nix)] ++
+    # [(import ./modules/programs/games.nix)] ++
     [(import ./modules/programs/starship.nix)] ++
-    #[(import ./modules/desktop/bspwm/default.nix)];
-    #[(import ./modules/desktop/gnome/default.nix)] ++
-    #[(import ./modules/desktop/sway/default.nix)] ++
+    [(import ./modules/desktop/sway/default.nix)] ++
+    # [(import ./modules/desktop/plasma/default.nix)] ++
     [(import ./modules/desktop/hyprland/default.nix)];
 
   # Bootloader.
@@ -39,15 +38,16 @@ in
   boot.loader.grub = {
     enable = true;
     efiSupport = true;
-    version = 2;
     devices = [ "nodev" ]; 
-    useOSProber = true;
-  };
+    useOSProber = true; 
+    configurationLimit = 2;
+ };
 
   boot.loader.efi.canTouchEfiVariables = true;
   boot.loader.efi.efiSysMountPoint = "/boot/efi";  
+  boot.kernelPackages = pkgs.linuxPackages_latest;
 
-  networking.hostName = "nixos"; # Define your hostname.
+  networking.hostName = "flakework"; # Define your hostname.
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
 
   # Configure network proxy if necessary
@@ -75,20 +75,24 @@ in
     LC_TIME = "en_US.UTF-8";
   };
 
-  fonts.fonts = with pkgs; [
+  fonts.packages = with pkgs; [
     # icons
     font-awesome
 
     # fonts
-    jetbrains-mono
     corefonts
     roboto
-    roboto-mono
+    cozette
     noto-fonts
-    tamsyn
+    fira
+    fira-go
+    sf-mono-liga-bin
     (nerdfonts.override {
       fonts = [
-        "FiraCode"
+        # "FiraCode"
+        "RobotoMono"
+        "JetBrainsMono"
+        "MPlus"
         "Iosevka"
         "Terminus"
       ];
@@ -135,6 +139,7 @@ in
       };
     };
     light.enable = true;
+    nm-applet.enable = true;
   };
 
   # Define a user account. Don't forget to set a password with ‘passwd’.
@@ -163,10 +168,15 @@ in
     systemPackages = with pkgs; [
      discord 
      exa
-     emacs
      groff
      killall
-     networkmanagerapplet
+     # networkmanagerapplet
+     # These are (mostly) used for EWW scripts,
+     # but are useful in general
+     jq  # JSON parsing
+     iwd # Wireless daemon
+     socat
+     bc
      ripgrep
      spotify
      tlp                    # Laptop power management
@@ -207,15 +217,27 @@ in
     extraOptions = "experimental-features = nix-command flakes";
   };
   
-  # Pull latest version of discord
-  nixpkgs.overlays = [
+  nixpkgs.overlays = with inputs; [
+    emacs-overlay.overlay
     (self: super: {
       discord = super.discord.overrideAttrs (
         _: { src = builtins.fetchTarball {
           url = "https://discord.com/api/download?platform=linux&format=tar.gz";
-          sha256 = "087p8z538cyfa9phd4nvzjrvx4s9952jz1azb2k8g6pggh1vxwm8";
+          sha256 = "12yrhlbigpy44rl3icir3jj2p5fqq2ywgbp5v3m1hxxmbawsm6wi";
         };}
       );
+    })
+    (final: prev: {
+      sf-mono-liga-bin = prev.stdenvNoCC.mkDerivation rec {
+        pname = "sf-mono-liga-bin";
+        version = "dev";
+        src = inputs.sf-mono-liga-src;
+        dontConfigure = true;
+        installPhase = ''
+          mkdir -p $out/share/fonts/opentype
+          cp -R $src/*.otf $out/share/fonts/opentype/
+        '';
+      };
     })
   ];
 }

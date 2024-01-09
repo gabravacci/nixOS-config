@@ -13,14 +13,17 @@
         main = {
           term = "xterm-256color";
 
+          # font = "JetBrainsMono Nerd Font:size=7";
+          # font = "Liga SFMono Nerd Font:size=7";
           font = "Iosevka Nerd Font:size=7";
           dpi-aware = "yes";
 
-          pad = "48x12";
+          pad = "12x12";
         };
 
         colors = {
-          background = "1f2024";
+          # background = "1f2024";
+          background = "161616";
           foreground = "ffffff";
 
           regular0 = "1d2430";  # black

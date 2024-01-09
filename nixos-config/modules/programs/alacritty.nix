@@ -12,19 +12,19 @@
       settings = {
         colors = {
           primary = {
-            background = "#1a1e2a";      # 1e1e1e | 061115 | 282a36
-            foreground = "#ffffff";      # dbd3c8 | d9d7d6 | f8f8f2
+            background = "#fafafa";      # 1e1e1e | 061115 | 282a36
+            foreground = "#383a42";      # dbd3c8 | d9d7d6 | f8f8f2
             # dim_foreground = "#a5abb6";
           };
           normal = {
-           black= "#1d2430";
-           red= "#ff5555";
-           green= "#00fbad";
-           yellow= "#ffdf5f";
-           blue= "#5eadfc";
-           magenta = "#fa5ead";
-           cyan = "#8be9fd";
-           white = "#ffffff";
+           black= "#fafafa";
+           red= "#ca1243";
+           green= "#50a14f";
+           yellow= "#c18401";
+           blue= "#4078f2";
+           magenta = "#a626a4";
+           cyan = "#0184bc";
+           white = "#383a42";
           };
           # ?
           # normal = {
@@ -56,7 +56,7 @@
             lines = 25;
           };
           padding = {
-            x = 24;
+            x = 12;
             y = 12;
           };
 
@@ -64,19 +64,22 @@
         startup_mode = "Windowed";
         };
         font = { 
-          size = 12;
+          size = 14;
 
           #normal.family = "Roboto Mono";
           #bold.family = "Roboto Mono";
           #italic.family = "Roboto Mono";
-          normal.family = "FiraCode Nerd Font Mono";
-          bold.family = "FiraCode Nerd Font Mono";
-          italic.family = "FiraCode Nerd Font Mono";
-          # normal.family = "Iosevka Nerd Font";
-          # bold.family = "Iosevka Nerd Font";
-          # italic.family = "Iosevka Nerd Font";
+          normal.family = "Iosevka Nerd Font";
+          bold.family = "Iosevka Nerd Font";
+          italic.family = "Iosevka Nerd Font";
+          # normal.family = "FreeMono";
+          # bold.family = "FreeMono";
+          # italic.family = "FreeMono";
         };
       };
     };
   };
 }
+
+
+

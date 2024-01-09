@@ -12,6 +12,7 @@ in
     waybar
   ];
 
+
   nixpkgs.overlays = [                                      # Waybar needs to be compiled with the experimental flag for wlr/workspaces to work
     (self: super: {
       waybar = super.waybar.overrideAttrs (oldAttrs: {
@@ -30,11 +31,12 @@ in
       systemd = {
         enable = true;
       };
+      
       style = ''
         * {
           border: none;
           border-radius: 0;
-          font-family: "FiraCode Nerd Font Mono";
+          font-family: "Tamsyn";
           font-size: 16px;
           min-height: 0;
         }

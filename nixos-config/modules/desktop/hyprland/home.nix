@@ -10,9 +10,10 @@ let
     general {
       #main_mod=SUPER
       border_size = 2
-      gaps_in = 4
-      gaps_out = 7
-      col.active_border=0xFF6a6f87
+      gaps_in = 3
+      gaps_out = 5
+      # col.active_border=0xFF6a6f87
+      col.active_border=rgb(525252)
       col.inactive_border=rgb(000000)
       layout=dwindle # master | dwindle
     }
@@ -24,25 +25,28 @@ let
     }
 
     decoration {
-      rounding=7
+      rounding=0
       multisample_edges=true
       active_opacity=1
-      inactive_opacity=0.87
+      inactive_opacity=1
       fullscreen_opacity=1
 
-      blur=true 
-      blur_size=2
-      blur_passes=4
-      blur_new_optimizations = true
-      blur_xray = true
-      blur_ignore_opacity = true
+      # blur=true 
+      # blur_size=2
+      # blur_passes=4
+      # blur_new_optimizations = true
+      # blur_xray = true
+      # blur_ignore_opacity = true
 
       drop_shadow = true
-      shadow_ignore_window = true
-      shadow_offset = 4 4
-      shadow_range = 4
-      shadow_render_power = 2
-      col.shadow = 0x66000000
+      shadow_range = 30
+      shadow_render_power = 3
+      col.shadow = rgba(00000070)
+      # shadow_ignore_window = true
+      # shadow_offset = 7 7
+      # shadow_range = 4
+      # shadow_render_power = 2
+      # col.shadow = 0x66000000
     }
     
     # Mathhias animations
@@ -84,17 +88,27 @@ let
     bindm=SUPER,mouse:272,movewindow
     bindm=SUPER,mouse:273,resizewindow
 
+    # Resize mode 
+    bind=ALT,R,submap,resize 
+    submap=resize 
+    binde=,L,resizeactive,10 0 
+    binde=,H,resizeactive,-10 0 
+    binde=,K,resizeactive,0 -10 
+    binde=,J,resizeactive,0 10 
+    bind=,escape,submap,reset 
+    submap=reset
+
+
     bind=SUPER,Return,exec,${pkgs.foot}/bin/foot
     bind=SUPER,Q,killactive,
     bind=SUPER,Escape,exec,~/.config/wofi/powermenu.sh
-    # bind=SUPER,E,exec,${pkgs.pcmanfm}/bin/pcmanfm
-    bind=SUPER,E,exec,${pkgs.cinnamon.nemo}/bin/nemo
-    # bind=SUPER,E,exec,${pkgs.gnome.nautilus}/bin/nautilus
+    bind=SUPER,E,exec,${pkgs.pcmanfm}/bin/pcmanfm
     bind=SUPER,T,togglefloating,
     bind=SUPER,Space,exec,wofi --show drun --columns 1 -I -s ~/.config/wofi/style.css 
     bind=SUPER,P,pseudo,
     bind=SUPER,F,fullscreen,
-    bind=SUPER,R,forcerendererreload
+    bind=SUPERSHIFT,R,exec,hyprctl reload
+    bind=SUPERSHIFT,E,exit,
 
     #bind=SUPER,left,movefocus,l
     #bind=SUPER,right,movefocus,r
@@ -125,18 +139,18 @@ let
     bind=SUPER,right,workspace,+1
     bind=SUPER,left,workspace,-1
 
-    bind=ALTSHIFT,1,movetoworkspace,1
-    bind=ALTSHIFT,2,movetoworkspace,2
-    bind=ALTSHIFT,3,movetoworkspace,3
-    bind=ALTSHIFT,4,movetoworkspace,4
-    bind=ALTSHIFT,5,movetoworkspace,5
-    bind=ALTSHIFT,6,movetoworkspace,6
-    bind=ALTSHIFT,7,movetoworkspace,7
-    bind=ALTSHIFT,8,movetoworkspace,8
-    bind=ALTSHIFT,9,movetoworkspace,9
-    bind=ALTSHIFT,0,movetoworkspace,10
-    bind=ALTSHIFT,right,movetoworkspace,+1
-    bind=ALTSHIFT,left,movetoworkspace,-1
+    bind=SUPERSHIFT,1,movetoworkspace,1
+    bind=SUPERSHIFT,2,movetoworkspace,2
+    bind=SUPERSHIFT,3,movetoworkspace,3
+    bind=SUPERSHIFT,4,movetoworkspace,4
+    bind=SUPERSHIFT,5,movetoworkspace,5
+    bind=SUPERSHIFT,6,movetoworkspace,6
+    bind=SUPERSHIFT,7,movetoworkspace,7
+    bind=SUPERSHIFT,8,movetoworkspace,8
+    bind=SUPERSHIFT,9,movetoworkspace,9
+    bind=SUPERSHIFT,0,movetoworkspace,10
+    bind=SUPERSHIFT,right,movetoworkspace,+1
+    bind=SUPERSHIFT,left,movetoworkspace,-1
 
     bind=CTRL,RIGHT,resizeactive,20 0
     bind=CTRL,LEFT,resizeactive,-20 0
@@ -151,22 +165,23 @@ let
     bind=,XF86AudioRaiseVolume,exec,${pkgs.pamixer}/bin/pamixer -i 10
     bind=,XF86AudioMute,exec,${pkgs.pamixer}/bin/pamixer -t
     bind=,XF86AudioMicMute,exec,${pkgs.pamixer}/bin/pamixer --default-source -t
-    bind=,XF86MonBrightnessDown,exec,${pkgs.light}/bin/light -U 10
-    bind=,XF86MonBrightnessUP,exec,${pkgs.light}/bin/light -A 10 
+    # bind=,XF86MonBrightnessDown,exec,${pkgs.light}/bin/light -U 10
+    # bind=,XF86MonBrightnessUP,exec,${pkgs.light}/bin/light -A 10 
+    # Framework hack
+    bind=ALT,XF86AudioLowerVolume,exec,${pkgs.light}/bin/light -U 10
+    bind=ALT,XF86AudioRaiseVolume,exec,${pkgs.light}/bin/light -A 10
 
     bind=,print,exec,${pkgs.grim}/bin/grim -g "$(${pkgs.slurp}/bin/slurp)" - | ${pkgs.swappy}/bin/swappy -f - -o ~/Pictures/$(date +%Hh_%Mm_%Ss_%d_%B_%Y).png && notify-send "Saved to ~/Pictures/$(date +%Hh_%Mm_%Ss_%d_%B_%Y).png"
 
     windowrule=float,^(pavucontrol)$
     windowrule=float,^(blueman-manager)$
-    # windowrule=float,^(pcmanfm)$
-    windowrule=float,^(nemo)$
-    #windowrule=float,^(files)$
+    windowrule=float,^(pcmanfm)$
     windowrulev2 = float, class:^(firefox)$, title:^(Firefox — Sharing Indicator)$
     windowrule=float,^(wofi)$
 
     # Auto start
     exec-once = ${pkgs.waybar}/bin/waybar &
-    # exec-once=${pkgs.swaybg}/bin/swaybg -m center -i $HOME/Pictures/ocean.png
+    # exec-once=${pkgs.swaybg}/bin/swaybg -m fill -i $HOME/nixos-config/modules/desktop/hyprland/wall/cyberpunk-girl.png
     exec-once=cd /home/gabe/nixos-config/modules/desktop/hyprland/ && ./random_wallpapers.sh
     exec-once=${pkgs.networkmanagerapplet}/bin/nm-applet --indicator
     exec-once=${pkgs.blueman}/bin/blueman-applet

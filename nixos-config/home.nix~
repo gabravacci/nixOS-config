@@ -1,0 +1,594 @@
+#
+# General Home-manager config
+#
+# flake.nix 
+#   ├─ home.nix *
+#   └─ ./modules   
+#        ├─ programming.nix
+#        ├─ ./programs
+#        │    └─ default.nix 
+#        ├─ ./editors 
+#        │    └─ default.nix
+#        └─ ./services
+#             └─ default.nix
+#
+
+{ inputs, config, lib, pkgs, ... }:
+
+{
+  # Home Manager needs a bit of information about you and the
+  # paths it should manage.
+  home.username = "gabe";
+  home.homeDirectory = "/home/gabe";
+
+  # This value determines the Home Manager release that your
+  # configuration is compatible with. This helps avoid breakage
+  # when a new Home Manager release introduces backwards
+  # incompatible changes.
+  #
+  # You can update Home Manager without changing this value. See
+  # the Home Manager release notes for a list of state version
+  # changes in each release.
+  home.stateVersion = "22.11";
+
+  # Let Home Manager install and manage itself.
+  programs.home-manager.enable = true;
+
+  programs.starship.enable = true;
+
+  programs.gBar = { 
+    enable = true;
+    extraCSS = ''
+    * {
+  all: unset;
+  font-family: "RobotoMono Nerd Font Light";
+}
+
+.bar, tooltip {
+  background-color: #282a36;
+  border-radius: 16px;
+}
+
+.right {
+  margin-right: 10px;
+  border-radius: 16px;
+}
+
+.time-text {
+  font-size: 16px;
+}
+
+.reboot-button {
+  font-size: 28px;
+  margin-right: 6px;
+  color: #6272a4;
+}
+
+.sleep-button {
+  font-size: 28px;
+  color: #6272a4;
+}
+
+.exit-button {
+  font-size: 28px;
+  color: #6272a4;
+}
+
+.power-button {
+  font-size: 28px;
+  color: #ff5555;
+}
+
+.power-box-expand {
+  margin-right: 6px;
+}
+trough {
+  border-radius: 3px;
+  border-width: 1px;
+  border-style: none;
+  background-color: #44475a;
+  margin-top: 2px;
+  min-width: 4px;
+  min-height: 4px;
+}
+
+slider {
+  border-radius: 0%;
+  border-width: 1px;
+  border-style: none;
+  margin: -9px -9px -9px -9px;
+  min-width: 16px;
+  min-height: 16px;
+  background-color: transparent;
+}
+
+highlight {
+  border-radius: 3px;
+  border-width: 1px;
+  border-style: none;
+  min-height: 6px;
+}
+
+.audio-icon {
+  font-size: 24px;
+  color: #ffb86c;
+  margin-right: 12px;
+}
+
+.audio-volume trough {
+  background-color: #44475a;
+}
+.audio-volume slider {
+  background-color: transparent;
+}
+.audio-volume highlight {
+  background-color: #ffb86c;
+}
+
+.mic-icon {
+  font-size: 24px;
+  color: #bd93f9;
+  margin-right: 0px;
+}
+
+.mic-volume trough {
+  background-color: #44475a;
+}
+.mic-volume slider {
+  background-color: transparent;
+}
+.mic-volume highlight {
+  background-color: #bd93f9;
+}
+
+.bt-num {
+  font-size: 16px;
+  color: #1793D1;
+  margin-left: -6px;
+}
+
+.bt-label-on {
+  font-size: 20px;
+  color: #1793D1;
+  margin-right: 6px;
+}
+
+.bt-label-off {
+  font-size: 24px;
+  color: #1793D1;
+  margin-right: 6px;
+}
+
+.bt-label-connected {
+  font-size: 28px;
+  color: #1793D1;
+  margin-right: 6px;
+}
+
+.disk-util-progress {
+  color: #bd93f9;
+  background-color: #44475a;
+  font-size: 16px;
+}
+
+.disk-data-text {
+  color: #bd93f9;
+  margin-right: 6px;
+  font-size: 16px;
+}
+
+.vram-util-progress {
+  color: #ffb86c;
+  background-color: #44475a;
+}
+
+.vram-data-text {
+  color: #ffb86c;
+  margin-right: 6px;
+  font-size: 16px;
+}
+
+.ram-util-progress {
+  color: #f1fa8c;
+  background-color: #44475a;
+}
+
+.ram-data-text {
+  color: #f1fa8c;
+  margin-right: 6px;
+  font-size: 16px;
+}
+
+.gpu-util-progress {
+  color: #8be9fd;
+  background-color: #44475a;
+}
+
+.gpu-data-text {
+  color: #8be9fd;
+  margin-right: 6px;
+  font-size: 16px;
+}
+
+.cpu-util-progress {
+  color: #50fa7b;
+  background-color: #44475a;
+  font-size: 16px;
+}
+
+.cpu-data-text {
+  color: #50fa7b;
+  margin-right: 6px;
+  font-size: 16px;
+}
+
+.battery-util-progress {
+  color: #ff79c6;
+  background-color: #44475a;
+  font-size: 16px;
+}
+
+.battery-data-text {
+  color: #ff79c6;
+  margin-right: 6px;
+  font-size: 16px;
+}
+
+.network-data-text {
+  color: #50fa7b;
+  margin-right: 6px;
+  font-size: 16px;
+}
+
+.network-up-under {
+  color: #44475a;
+}
+
+.network-up-low {
+  color: #50fa7b;
+}
+
+.network-up-mid-low {
+  color: #f1fa8c;
+}
+
+.network-up-mid-high {
+  color: #ffb86c;
+}
+
+.network-up-high {
+  color: #bd93f9;
+}
+
+.network-up-over {
+  color: #ff5555;
+}
+
+.network-down-under {
+  color: #44475a;
+}
+
+.network-down-low {
+  color: #50fa7b;
+}
+
+.network-down-mid-low {
+  color: #f1fa8c;
+}
+
+.network-down-mid-high {
+  color: #ffb86c;
+}
+
+.network-down-high {
+  color: #bd93f9;
+}
+
+.network-down-over {
+  color: #ff5555;
+}
+
+.ws-dead {
+  color: #44475a;
+  font-size: 16px;
+}
+
+.ws-inactive {
+  color: #6272a4;
+  font-size: 16px;
+}
+
+.ws-visible {
+  color: #8be9fd;
+  font-size: 16px;
+}
+
+.ws-current {
+  color: #f1fa8c;
+  font-size: 16px;
+}
+
+.ws-active {
+  color: #50fa7b;
+  font-size: 16px;
+}
+
+@keyframes connectanim {
+  from {
+    background-image: radial-gradient(circle farthest-side at center, #1793D1 0%, transparent 0%, transparent 100%);
+  }
+  to {
+    background-image: radial-gradient(circle farthest-side at center, #1793D1 0%, #1793D1 100%, transparent 100%);
+  }
+}
+@keyframes disconnectanim {
+  from {
+    background-image: radial-gradient(circle farthest-side at center, transparent 0%, #1793D1 0%, #1793D1 100%);
+  }
+  to {
+    background-image: radial-gradient(circle farthest-side at center, transparent 0%, transparent 100%, #1793D1 100%);
+  }
+}
+@keyframes scanonanim {
+  from {
+    color: #f1fa8c;
+  }
+  to {
+    color: #50fa7b;
+  }
+}
+@keyframes scanoffanim {
+  from {
+    color: #50fa7b;
+  }
+  to {
+    color: #f1fa8c;
+  }
+}
+.bt-bg {
+  background-color: #282a36;
+  border-radius: 16px;
+}
+
+.bt-header-box {
+  margin-top: 4px;
+  margin-right: 8px;
+  margin-left: 8px;
+  font-size: 24px;
+  color: #1793D1;
+}
+
+.bt-body-box {
+  margin-right: 8px;
+  margin-left: 8px;
+}
+
+.bt-button {
+  border-radius: 16px;
+  padding-left: 8px;
+  padding-right: 8px;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  margin-bottom: 4px;
+  margin-top: 4px;
+  font-size: 16px;
+}
+.bt-button.active {
+  animation-name: connectanim;
+  animation-duration: 50ms;
+  animation-timing-function: linear;
+  animation-fill-mode: forwards;
+}
+.bt-button.inactive {
+  animation-name: disconnectanim;
+  animation-duration: 50ms;
+  animation-timing-function: linear;
+  animation-fill-mode: forwards;
+}
+.bt-button.failed {
+  color: #ff5555;
+}
+
+.bt-close {
+  color: #ff5555;
+  background-color: #44475a;
+  border-radius: 16px;
+  padding: 0px 8px 0px 7px;
+  margin: 0px 0px 0px 8px;
+}
+
+.bt-scan {
+  color: #f1fa8c;
+  background-color: #44475a;
+  border-radius: 16px;
+  padding: 2px 11px 0px 7px;
+  margin: 0px 0px 0px 10px;
+  font-size: 18px;
+}
+.bt-scan.active {
+  animation-name: scanonanim;
+  animation-duration: 50ms;
+  animation-timing-function: linear;
+  animation-fill-mode: forwards;
+}
+.bt-scan.inactive {
+  animation-name: scanoffanim;
+  animation-duration: 50ms;
+  animation-timing-function: linear;
+  animation-fill-mode: forwards;
+}
+    '';
+  };
+
+  # Module imports
+  imports = 
+    #[(import ./modules/desktop/bspwm/home.nix)] ++
+    [(import ./modules/desktop/sway/home.nix)] ++
+    [(import ./git.nix)] ++
+    [(import ./modules/desktop/hyprland/home.nix)] ++
+    [(import ./modules/programming.nix)] ++
+    (import ./modules/programs) ++
+    (import ./modules/editors) ++
+    (import ./modules/services);
+
+  home.packages = with pkgs; [
+      # Terminal
+      # asciiquarium
+      # btop
+      htop
+      iftop
+      # cbonsai
+      # cmatrix
+      fzf
+      gum
+      pfetch
+      # nitch
+      ranger
+      starfetch
+
+      # Video/Audio
+      feh
+      # ffmpeg
+      lsix
+      obs-studio
+      mpv
+      pavucontrol
+      stremio
+      youtube-dl     # Youtube video downloader
+      yt-dlp         # extension for more websites
+
+      # Apps
+      # amberol        # Music Player
+      brave
+      firefox
+      nyxt
+      hugo
+      geany
+      inkscape
+      # logseq
+      # via
+      
+      # File Management
+      font-manager
+      okular
+      pcmanfm
+      stow
+      p7zip
+      unzip 
+      unrar
+      zip
+
+      # LaTeX (sorry!)
+      texlive.combined.scheme-full
+      tectonic
+  ];
+
+  programs = {
+    zathura = {
+      enable = true;
+
+      extraConfig = ''
+        map r reload
+
+        set default-bg "#10151a"
+
+        set recolor-lightcolor "#10151a"'';
+    };
+    # TODO: move this to its own module
+    emacs = {
+      enable = true;
+      package = pkgs.emacsPgtk;
+      extraPackages = (epkgs: (with epkgs; [
+        olivetti
+        ivy
+        ivy-rich
+        all-the-icons-ivy-rich
+        lsp-mode
+        lsp-ui
+        treemacs
+        evil-nerd-commenter
+        nix-mode
+        haskell-mode
+        lsp-pyright
+        lsp-java
+        rust-mode
+        web-mode
+        cider
+        sly
+        slime
+        company
+        company-box 
+        vterm
+        projectile # git
+        magit
+        helpful
+        which-key  
+        rainbow-delimiters # for Lisp
+        all-the-icons
+        all-the-icons-dired
+        doom-modeline
+        nano-modeline
+        org-fragtog
+        org
+        org-bullets
+        org-appear
+        imenu-list
+        auctex
+        engrave-faces
+        counsel
+        general
+        evil
+        evil-collection
+        doom-themes
+        acme-theme
+        nano-theme
+      ]));
+    };
+  };
+
+  services = {
+    network-manager-applet.enable = true;  # Network
+    blueman-applet.enable = true;
+  };
+
+  home.pointerCursor = {
+    gtk.enable = true;
+    # name = "Catppuccin-Mocha-Dark-Cursors";
+    # package = pkgs.catppuccin-cursors.mochaDark;
+    name = "Bibata-Modern-Ice";
+    package = pkgs.bibata-cursors;
+    # name = "Catppuccin-Latte-Light-Cursors";
+    # package = pkgs.catppuccin-cursors.latteLight;
+    #name = "WhiteSur-cursors";
+    #package = pkgs.whitesur-gtk-theme;
+    size = 24;
+  };
+
+  gtk = {
+    enable = true;
+    theme = {
+      # name = "Dracula";
+      # package = pkgs.dracula-theme;
+      # name = "Skeu";
+      # package = pkgs.skeu;
+      # name = "Clearlooks-Phenix";
+      # package = pkgs.clearlooks-phenix;
+      # name = "TraditionalOk";   # Menta | TraditionalGreen | BlackMATE? |  
+      # package = pkgs.mate.mate-themes;
+      name = "Gruvbox-Dark-B";
+      # package = pkgs.gruvbox-dark-gtk;
+      package = pkgs.gruvbox-gtk-theme;
+    };
+    iconTheme = {
+      #name = "Papirus-Dark";
+      #package = pkgs.papirus-icon-theme;
+      name = "WhiteSur";
+      package = pkgs.whitesur-icon-theme;
+    };
+    font = {
+      name = "RobotoMono Nerd Font Light";
+      # name = "Roboto Mono Medium";
+      # name = "Roboto Light Medium";
+    };
+  };
+}

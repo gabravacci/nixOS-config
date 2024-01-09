@@ -1,0 +1,169 @@
+#
+# Status/general bar
+#
+
+{ config, lib, pkgs, ... }:
+
+let
+  user = "gabe";
+in
+{
+  environment.systemPackages = with pkgs; [
+    waybar
+  ];
+
+  nixpkgs.overlays = [                                      # Waybar needs to be compiled with the experimental flag for wlr/workspaces to work
+    (self: super: {
+      waybar = super.waybar.overrideAttrs (oldAttrs: {
+        mesonFlags = oldAttrs.mesonFlags ++ [ "-Dexperimental=true" ];
+        patchPhase = ''
+          substituteInPlace src/modules/wlr/workspace_manager.cpp --replace "zext_workspace_handle_v1_activate(workspace_handle_);" "const std::string command = \"hyprctl dispatch workspace \" + name_; system(command.c_str());"
+        '';
+      });
+    })
+  ];
+
+  home-manager.users.${user} = {
+    programs.waybar = {
+      enable = true;
+      # Will it start automatically?
+      # systemd = {
+      #   enable = true;
+      # };
+      style = ''
+        * {
+          border: none;
+          font-family: "Liga SFMono Nerd Font";
+          font-size: 14pt;
+          /* text-shadow: 0px 0px 5px #000000; */
+        }
+        window#waybar > box {
+          background-color: #161616;
+          transition-property: background-color;
+          transition-duration: .5s;
+          /*border-bottom: none;*/
+          box-shadow: 4px 4px 2px 1px #101010;
+        }
+        window#waybar.hidden {
+          opacity: 0.2;
+        }
+        #tray,
+        #workspaces,
+        #clock,
+        #network,
+        #window,
+        #pulseaudio,
+        #battery,
+        #memory,
+        #cpu,
+        #disk,
+        #custom-icon,
+        #custom-menu {
+          color: #FFFFFF;
+          padding: 3px 10px 3px 10px;
+        }
+
+        #battery.warning {
+          color: #ff5d17;
+          background-color: rgba(0,0,0,0);
+        }
+        #battery.critical {
+          color: #ff200c;
+          background-color: rgba(0,0,0,0);
+        }
+        #battery.charging {
+          color: #9ece6a;
+          background-color: rgba(0,0,0,0);
+        }
+      '';
+      settings = {
+        Main = {
+          layer = "top";
+          position = "top";
+
+          height = 0;            # 0 | 16 | 30
+
+          modules-left = [ "custom/icon" "wlr/workspaces" "hyprland/submap" ];
+          modules-center = [ "clock" ];
+          modules-right = [ "cpu" "custom/menu" "memory" "custom/menu" "disk" "custom/menu" "battery" "custom/menu" "pulseaudio" "custom/menu" "tray" ];
+          "hyprland/window" = {
+            format = "{}";
+          };
+          "wlr/workspaces" = {
+            format = "{name}";
+            #format = "{icon}";
+            #format-icons = {
+            #  active = "";
+            #  default = "";
+            #};
+            active-only = false;
+            on-click = "activate";
+          };
+          "custom/menu" = {
+            format = "┃";
+            tooltip = false;
+          };
+          "custom/icon" = {
+            # format = "";
+            # Cozette format
+            format = "λ";
+            tooltip = false;
+          };
+          clock = {
+            format = "{:%a %b %d %I:%M %p}  ";
+            tooltip-format = "<big>{:%Y %B}</big>\n<tt><small>{calendar}</small></tt>";
+            #format-alt = "{:%A, %B %d, %Y} ";
+          };
+          cpu = {
+            format = "CPU:{usage}%";
+            interval = 1;
+          };
+          disk = {
+            format = "/ {percentage_used}%";
+            path = "/";
+            interval = 30;
+          };
+          memory = {
+            format = " {}%";
+            interval = 1;
+          };
+          tray = {
+            icon-size = 30;
+            tooltip = false;
+            spacing = 10;
+          };
+          battery = {
+            interval = 60;
+            states = {
+              warning = 30;
+              critical = 15;
+            };
+            #     a    󰣨 
+            # λ
+            format = "{icon}  {capacity}%";
+            format-charging = " {capacity}%";
+            format-icons = ["" "" "" "" ""]; # FiraCode icons
+            #format-icons = [ "" "" "" "" "" ]; # JetBrains icons
+            max-length = 25;
+          };
+          pulseaudio = {
+            format = "{icon}";
+            format-bluetooth = "{icon}";
+            format-muted = "婢 ──✗──";
+            format-source = "";
+            format-source-muted = "";
+            format-icons = {
+              # default = [ "󰕿 ─────" "󰕿 ━────" "󰖀 ━━───" "󰖀 ━━━──" "󰕾 ━━━━─" "󰕾 ━━━━━" ];
+              # cozette version
+              default = [ "奄 ─────" "奄 ━────" "奔 ━━───" "奔 ━━━──" "墳 ━━━━─" "墳 ━━━━━" ];
+              headphone = "";
+            };
+            tooltip-format = "{volume}%";
+            on-click-right = "${pkgs.pavucontrol}/bin/pavucontrol";
+            on-click = "${pkgs.pamixer}/bin/pamixer -t";
+          };
+        };
+      };
+    };
+  };
+}

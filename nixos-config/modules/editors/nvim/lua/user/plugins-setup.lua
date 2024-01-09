@@ -38,6 +38,8 @@ return packer.startup(function (use)
   -- colorscheme
   -- use("bluz71/vim-nightfly-guicolors")
   use("folke/tokyonight.nvim")
+  use("nyoom-engineering/oxocarbon.nvim")
+
 
   -- zen mode
   use("Pocco81/true-zen.nvim")

@@ -80,13 +80,9 @@
         "ui.background" = "{}";
       };
     };
-
-    languages = with pkgs; [
-      {
-        name = "rust";
-        auto-format = true;
-        language-server.command = "${pkgs.rust-analyzer}/bin/rust-analyzer";
-      }
-    ];
+    languages.language = [{
+      name = "rust";
+      auto-format = false;
+    }];
   };
 }

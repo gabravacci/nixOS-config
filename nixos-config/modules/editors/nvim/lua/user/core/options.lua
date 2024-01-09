@@ -37,5 +37,8 @@ opt.iskeyword:append("-")
 vim.g.tex_flavors = 'latex'
 vim.g.vimtex_view_method = 'zathura'
 vim.g.vimtex_quickfix_mode = 0
+vim.g.UltiSnipsExpandTrigger = '<tab>'
+vim.g.UltiSnipsJumpForwardTrigger = '<tab>'
+vim.g.UltiSnipsJumpBackwardTrigger = '<s-tab>'
 opt.conceallevel = 1
 

@@ -1,7 +1,7 @@
 { config, lib, pkgs, ... }:
 
 {
-  imports = [ ../../programs/min_waybar.nix ];
+  imports = [ ../../programs/waybar.nix ];
 
   services.xserver = {
     enable = true;
@@ -13,6 +13,8 @@
     displayManager.gdm = {
       enable = true;
     };
+    # windowManager.jwm.enable=true;
+    # windowManager.cwm.enable=true;
   };
 
   environment = {
@@ -21,6 +23,14 @@
     };
 
     systemPackages = with pkgs; [
+      # X phase shit ------------
+      # dmenu
+      # st
+      # xorg.xclock 
+      # xlogo
+      # nedit       # text editor
+      # dillong     # browser
+      # -------------------------
       grim
       mpvpaper
       slurp
